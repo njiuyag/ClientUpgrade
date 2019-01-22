@@ -4,10 +4,34 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:ClientUpgrade.Uploader"
         mc:Ignorable="d"
-        Title="系统更新配置" Height="450" Width="800" >
-    <Grid>
-        <ContentControl Content="abb" BorderBrush="{DynamicResource {x:Static SystemColors.InfoTextBrushKey}}"  />
-    </Grid>
+        Title="系统更新配置" Height="480" Width="450" WindowStartupLocation="CenterScreen" ShowIconOnTitleBar="True" >
+    <StackPanel >
+        <GroupBox Header="更新信息" Padding="10" Margin="10" VerticalAlignment="Top">
+            <StackPanel>
+                <Label Content="注：选择需要更新程序的目录" Margin="0,5,0,5"></Label>
+                <Button Content="选择目录" Margin="0,5,0,5"></Button>
+                <TextBox Name="Path" Margin="0,5,0,5"></TextBox>
+                <WrapPanel Margin="0,20,0,20">
+                    <GroupBox Header="更新方式" Padding="10">
+                        <WrapPanel>
+                            <RadioButton GroupName="UpdateWay" Margin="10">按版本号</RadioButton>
+                            <RadioButton GroupName="UpdateWay"  Margin="10">按时间戳</RadioButton>
+                            <RadioButton GroupName="UpdateWay"  Margin="10">全部更新</RadioButton>
+                        </WrapPanel>
+                    </GroupBox>
+                    <Button Content="刷新配置文件" Height="30" Margin="20,0,0,0"></Button>
+                </WrapPanel>
+                <Label Content="客户端更新路径" Margin="0,5,0,0"></Label>
+                <TextBox Name="ClientUpdatePath" Margin="0,5,0,0"></TextBox>
+                <CheckBox Margin="0,5,0,5">通知客户端更新</CheckBox>
+                <WrapPanel HorizontalAlignment="Right" Margin="0,15,0,5">
+                    <Button Content="保存" Margin="20,0,20,0" Padding="20,10,20,10"></Button>
+                    <Button Content="退出" Margin="20,0,20,0" Padding="20,10,20,10"></Button>
+                </WrapPanel>
+            </StackPanel>
+        </GroupBox>
+    </StackPanel>
 </Controls:MetroWindow>
