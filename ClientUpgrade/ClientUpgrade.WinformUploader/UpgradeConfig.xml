@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<SysUpdateConfig>
+  <Config IsUpdate="31" UpdatePath="http://test.wms.ecom-pl.com/Upgrade/LogisticsUpgrade" UpdateWay="2" />
+  <UpdateFiles>
+    <DllFile FILENAME="WebPaltTest.dll" VERSION="1.0.0.0" FILELENGTH="16384" CREATEDATE="2011/2/26 13:02:58" MODIFYDATE="2011/1/9 11:55:08" />
+  </UpdateFiles>
+</SysUpdateConfig>
