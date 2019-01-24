@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientUpgrade.Uploader", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientUpgrade.WinformUploader", "ClientUpgrade.WinformUploader\ClientUpgrade.WinformUploader.csproj", "{877571F7-11C0-4A2D-855D-E5E81FF42585}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientUpgrade.WinfromUpdater", "ClientUpgrade.WinfromUpdater\ClientUpgrade.WinfromUpdater.csproj", "{B43D1039-5631-4540-837C-CD60590D4A67}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{877571F7-11C0-4A2D-855D-E5E81FF42585}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{877571F7-11C0-4A2D-855D-E5E81FF42585}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{877571F7-11C0-4A2D-855D-E5E81FF42585}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B43D1039-5631-4540-837C-CD60590D4A67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B43D1039-5631-4540-837C-CD60590D4A67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B43D1039-5631-4540-837C-CD60590D4A67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B43D1039-5631-4540-837C-CD60590D4A67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
