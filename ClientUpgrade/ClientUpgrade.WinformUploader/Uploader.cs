@@ -17,19 +17,22 @@ namespace ClientUpgrade.WinformUploader
     public partial class Uploader : Form
     {
         private string _baseDirectory;
+        private string _programFilePath;
+        private string _upgradeConfigFilePath;
         private SysUpdateConfig _sysUpdateCofig;
         public Uploader()
         {
             InitializeComponent();
-            Initialize();
+            InitializeValues();
         }
-
-        public void Initialize()
+        public void InitializeValues()
         {
             _baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            _programFilePath = _baseDirectory + "UpgradeFiles\\";
+            _upgradeConfigFilePath = _baseDirectory + "UpgradeConfig.xml";
             _sysUpdateCofig = GetSysUpdateConfig();
-            txtDllFilesPath.Text = _baseDirectory + "UpgradeFiles\\";
-            txtWebPath.Text = _sysUpdateCofig.Config.UpdatePath;
+            txtProgramFilePath.Text = _programFilePath;
+            txtUpdatePathOfClient.Text = _sysUpdateCofig.Config.UpdatePath;
 
         }
 
@@ -41,9 +44,18 @@ namespace ClientUpgrade.WinformUploader
             }
 
         }
-        private void UpdateDllFiles()
+
+        private void SaveSysUpdateConfig()
         {
-            string[] files = Directory.GetFiles(this.txtDllFilesPath.Text);
+            using (var fileStream = new FileStream(_upgradeConfigFilePath, FileMode.Create))
+            {
+                XmlHelper.Serialize(fileStream, _sysUpdateCofig);
+            }
+        }
+
+        private void UpdateProgramInfoToConfig ()
+        {
+            string[] files = Directory.GetFiles(txtProgramFilePath.Text);
 
             var dllFilesInfo = new List<SysUpdateConfigDllFile>();
             foreach (string file in files)
@@ -79,28 +91,51 @@ namespace ClientUpgrade.WinformUploader
             }
             _sysUpdateCofig.UpdateFiles = dllFilesInfo.ToArray();
 
-            using(var fileStream=new FileStream(_baseDirectory + "UpgradeConfig.xml", FileMode.Create))
+            SaveSysUpdateConfig();
+
+        }
+
+        private void UpdateVersion()
+        {
+
+            if (chkIsInformUpdate.Checked)
             {
-                XmlHelper.Serialize(fileStream, _sysUpdateCofig);
+                _sysUpdateCofig.Config.IsUpdate += 1;
             }
 
+            _sysUpdateCofig.Config.UpdatePath = txtUpdatePathOfClient.Text;
+            if (radioVersion.Checked)
+            {
+                _sysUpdateCofig.Config.UpdateWay = "0";
+            }
+            else if (radioTimestamp.Checked)
+            {
+                _sysUpdateCofig.Config.UpdateWay = "1";
+            }
+            else if (radioAllUpdate.Checked)
+            {
+                _sysUpdateCofig.Config.UpdateWay = "2";
+            }
+
+            SaveSysUpdateConfig();
         }
 
         #region 事件方法
-        private void btnSelectDirectory_Click(object sender, EventArgs e)
+
+        private void SelectProgramDirectory(object sender, EventArgs e)
         {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-            if (fbd.ShowDialog() == DialogResult.OK)
+            var folderBrowserDialog = new FolderBrowserDialog();
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
-                txtDllFilesPath.Text = fbd.SelectedPath;
+                txtProgramFilePath.Text = folderBrowserDialog.SelectedPath;
             }
         }
 
-        private void btnRefreshConfigFile_Click(object sender, EventArgs e)
+        private void RefreshProgramFileInfoInConfigFile(object sender, EventArgs e)
         {
-            if (txtDllFilesPath.Text != "")
+            if (!string.IsNullOrEmpty(txtProgramFilePath.Text))
             {
-                UpdateDllFiles();
+                UpdateProgramInfoToConfig();
                 MessageBox.Show("刷新成功!");
             }
             else
@@ -108,6 +143,24 @@ namespace ClientUpgrade.WinformUploader
                 MessageBox.Show("路径不能为空!", "提示");
             }
         }
+
+        private void DisplayProgramDirectoryTip(object sender, EventArgs e)
+        {
+            ttpProgramDirectory.Show(txtProgramFilePath.Text, txtProgramFilePath, 10000);
+        }
+
+        private void Save(object sender,EventArgs e)
+        {
+            UpdateVersion();
+            MessageBox.Show("保存成功", "成功");
+        }
+        private void Exit(object sender,EventArgs e)
+        {
+            Close();
+        }
+
         #endregion
+
+
     }
 }

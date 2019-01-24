@@ -30,32 +30,33 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Uploader));
-            this.txtDllFilesPath = new System.Windows.Forms.TextBox();
+            this.txtProgramFilePath = new System.Windows.Forms.TextBox();
             this.btnRefreshConfigFile = new System.Windows.Forms.Button();
             this.btnSelectDirectory = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.gboxInfo = new System.Windows.Forms.GroupBox();
-            this.txtWebPath = new System.Windows.Forms.TextBox();
+            this.txtUpdatePathOfClient = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonClose = new System.Windows.Forms.Button();
-            this.chkIsUpdate = new System.Windows.Forms.CheckBox();
+            this.chkIsInformUpdate = new System.Windows.Forms.CheckBox();
             this.gboxUpdate = new System.Windows.Forms.GroupBox();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.radioAllUpdate = new System.Windows.Forms.RadioButton();
+            this.radioTimestamp = new System.Windows.Forms.RadioButton();
+            this.radioVersion = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
-            this.toolTipPath = new System.Windows.Forms.ToolTip(this.components);
+            this.ttpProgramDirectory = new System.Windows.Forms.ToolTip(this.components);
             this.gboxInfo.SuspendLayout();
             this.gboxUpdate.SuspendLayout();
             this.SuspendLayout();
             // 
-            // txtDllFilesPath
+            // txtProgramFilePath
             // 
-            this.txtDllFilesPath.Location = new System.Drawing.Point(21, 89);
-            this.txtDllFilesPath.Name = "txtDllFilesPath";
-            this.txtDllFilesPath.ReadOnly = true;
-            this.txtDllFilesPath.Size = new System.Drawing.Size(403, 21);
-            this.txtDllFilesPath.TabIndex = 0;
+            this.txtProgramFilePath.Location = new System.Drawing.Point(21, 89);
+            this.txtProgramFilePath.Name = "txtProgramFilePath";
+            this.txtProgramFilePath.ReadOnly = true;
+            this.txtProgramFilePath.Size = new System.Drawing.Size(403, 21);
+            this.txtProgramFilePath.TabIndex = 0;
+            this.txtProgramFilePath.MouseEnter += new System.EventHandler(this.DisplayProgramDirectoryTip);
             // 
             // btnRefreshConfigFile
             // 
@@ -66,7 +67,7 @@
             this.btnRefreshConfigFile.TabIndex = 2;
             this.btnRefreshConfigFile.Text = "刷新配置文件";
             this.btnRefreshConfigFile.UseVisualStyleBackColor = true;
-            this.btnRefreshConfigFile.Click += new System.EventHandler(this.btnRefreshConfigFile_Click);
+            this.btnRefreshConfigFile.Click += new System.EventHandler(this.RefreshProgramFileInfoInConfigFile);
             // 
             // btnSelectDirectory
             // 
@@ -76,7 +77,7 @@
             this.btnSelectDirectory.TabIndex = 3;
             this.btnSelectDirectory.Text = "选择目录";
             this.btnSelectDirectory.UseVisualStyleBackColor = true;
-            this.btnSelectDirectory.Click += new System.EventHandler(this.btnSelectDirectory_Click);
+            this.btnSelectDirectory.Click += new System.EventHandler(this.SelectProgramDirectory);
             // 
             // buttonSave
             // 
@@ -88,18 +89,19 @@
             this.buttonSave.TabIndex = 4;
             this.buttonSave.Text = "保存";
             this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.Save);
             // 
             // gboxInfo
             // 
             this.gboxInfo.BackColor = System.Drawing.Color.Transparent;
-            this.gboxInfo.Controls.Add(this.txtWebPath);
+            this.gboxInfo.Controls.Add(this.txtUpdatePathOfClient);
             this.gboxInfo.Controls.Add(this.label1);
             this.gboxInfo.Controls.Add(this.buttonClose);
-            this.gboxInfo.Controls.Add(this.chkIsUpdate);
+            this.gboxInfo.Controls.Add(this.chkIsInformUpdate);
             this.gboxInfo.Controls.Add(this.gboxUpdate);
             this.gboxInfo.Controls.Add(this.label2);
             this.gboxInfo.Controls.Add(this.buttonSave);
-            this.gboxInfo.Controls.Add(this.txtDllFilesPath);
+            this.gboxInfo.Controls.Add(this.txtProgramFilePath);
             this.gboxInfo.Controls.Add(this.btnSelectDirectory);
             this.gboxInfo.Controls.Add(this.btnRefreshConfigFile);
             this.gboxInfo.Location = new System.Drawing.Point(17, 12);
@@ -109,13 +111,13 @@
             this.gboxInfo.TabStop = false;
             this.gboxInfo.Text = "更新信息";
             // 
-            // txtWebPath
+            // txtUpdatePathOfClient
             // 
-            this.txtWebPath.Location = new System.Drawing.Point(24, 253);
-            this.txtWebPath.Name = "txtWebPath";
-            this.txtWebPath.Size = new System.Drawing.Size(400, 21);
-            this.txtWebPath.TabIndex = 12;
-            this.txtWebPath.Text = "http://wms.ecom-pl.com/";
+            this.txtUpdatePathOfClient.Location = new System.Drawing.Point(24, 253);
+            this.txtUpdatePathOfClient.Name = "txtUpdatePathOfClient";
+            this.txtUpdatePathOfClient.Size = new System.Drawing.Size(400, 21);
+            this.txtUpdatePathOfClient.TabIndex = 12;
+            this.txtUpdatePathOfClient.Text = "http://wms.ecom-pl.com/";
             // 
             // label1
             // 
@@ -136,22 +138,23 @@
             this.buttonClose.TabIndex = 10;
             this.buttonClose.Text = "关闭";
             this.buttonClose.UseVisualStyleBackColor = true;
+            this.buttonClose.Click += new System.EventHandler(this.Exit);
             // 
-            // chkIsUpdate
+            // chkIsInformUpdate
             // 
-            this.chkIsUpdate.AutoSize = true;
-            this.chkIsUpdate.Location = new System.Drawing.Point(24, 290);
-            this.chkIsUpdate.Name = "chkIsUpdate";
-            this.chkIsUpdate.Size = new System.Drawing.Size(108, 16);
-            this.chkIsUpdate.TabIndex = 6;
-            this.chkIsUpdate.Text = "通知客户端更新";
-            this.chkIsUpdate.UseVisualStyleBackColor = true;
+            this.chkIsInformUpdate.AutoSize = true;
+            this.chkIsInformUpdate.Location = new System.Drawing.Point(24, 290);
+            this.chkIsInformUpdate.Name = "chkIsInformUpdate";
+            this.chkIsInformUpdate.Size = new System.Drawing.Size(108, 16);
+            this.chkIsInformUpdate.TabIndex = 6;
+            this.chkIsInformUpdate.Text = "通知客户端更新";
+            this.chkIsInformUpdate.UseVisualStyleBackColor = true;
             // 
             // gboxUpdate
             // 
-            this.gboxUpdate.Controls.Add(this.radioButton3);
-            this.gboxUpdate.Controls.Add(this.radioButton2);
-            this.gboxUpdate.Controls.Add(this.radioButton1);
+            this.gboxUpdate.Controls.Add(this.radioAllUpdate);
+            this.gboxUpdate.Controls.Add(this.radioTimestamp);
+            this.gboxUpdate.Controls.Add(this.radioVersion);
             this.gboxUpdate.Location = new System.Drawing.Point(24, 144);
             this.gboxUpdate.Name = "gboxUpdate";
             this.gboxUpdate.Size = new System.Drawing.Size(293, 65);
@@ -159,39 +162,39 @@
             this.gboxUpdate.TabStop = false;
             this.gboxUpdate.Text = "更新方式";
             // 
-            // radioButton3
+            // radioAllUpdate
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(179, 30);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(71, 16);
-            this.radioButton3.TabIndex = 9;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "全部更新";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioAllUpdate.AutoSize = true;
+            this.radioAllUpdate.Location = new System.Drawing.Point(179, 30);
+            this.radioAllUpdate.Name = "radioAllUpdate";
+            this.radioAllUpdate.Size = new System.Drawing.Size(71, 16);
+            this.radioAllUpdate.TabIndex = 9;
+            this.radioAllUpdate.TabStop = true;
+            this.radioAllUpdate.Text = "全部更新";
+            this.radioAllUpdate.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // radioTimestamp
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(102, 30);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(71, 16);
-            this.radioButton2.TabIndex = 8;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "按时间戳";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioTimestamp.AutoSize = true;
+            this.radioTimestamp.Location = new System.Drawing.Point(102, 30);
+            this.radioTimestamp.Name = "radioTimestamp";
+            this.radioTimestamp.Size = new System.Drawing.Size(71, 16);
+            this.radioTimestamp.TabIndex = 8;
+            this.radioTimestamp.TabStop = true;
+            this.radioTimestamp.Text = "按时间戳";
+            this.radioTimestamp.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // radioVersion
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(25, 30);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(71, 16);
-            this.radioButton1.TabIndex = 7;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "按版本号";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioVersion.AutoSize = true;
+            this.radioVersion.Checked = true;
+            this.radioVersion.Location = new System.Drawing.Point(25, 30);
+            this.radioVersion.Name = "radioVersion";
+            this.radioVersion.Size = new System.Drawing.Size(71, 16);
+            this.radioVersion.TabIndex = 7;
+            this.radioVersion.TabStop = true;
+            this.radioVersion.Text = "按版本号";
+            this.radioVersion.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
@@ -203,15 +206,15 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "注:选择需要更新程序的目录";
             // 
-            // toolTipPath
+            // ttpProgramDirectory
             // 
-            this.toolTipPath.AutomaticDelay = 0;
-            this.toolTipPath.AutoPopDelay = 50000;
-            this.toolTipPath.ForeColor = System.Drawing.Color.Red;
-            this.toolTipPath.InitialDelay = 10;
-            this.toolTipPath.ReshowDelay = 50000;
-            this.toolTipPath.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.toolTipPath.ToolTipTitle = "当前路径";
+            this.ttpProgramDirectory.AutomaticDelay = 0;
+            this.ttpProgramDirectory.AutoPopDelay = 50000;
+            this.ttpProgramDirectory.ForeColor = System.Drawing.Color.Red;
+            this.ttpProgramDirectory.InitialDelay = 10;
+            this.ttpProgramDirectory.ReshowDelay = 50000;
+            this.ttpProgramDirectory.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.ttpProgramDirectory.ToolTipTitle = "当前路径";
             // 
             // Uploader
             // 
@@ -234,21 +237,21 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtDllFilesPath;
+        private System.Windows.Forms.TextBox txtProgramFilePath;
         private System.Windows.Forms.Button btnRefreshConfigFile;
         private System.Windows.Forms.Button btnSelectDirectory;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.GroupBox gboxInfo;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ToolTip toolTipPath;
-        private System.Windows.Forms.CheckBox chkIsUpdate;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.ToolTip ttpProgramDirectory;
+        private System.Windows.Forms.CheckBox chkIsInformUpdate;
+        private System.Windows.Forms.RadioButton radioTimestamp;
+        private System.Windows.Forms.RadioButton radioVersion;
         private System.Windows.Forms.GroupBox gboxUpdate;
         private System.Windows.Forms.Button buttonClose;
-        private System.Windows.Forms.TextBox txtWebPath;
+        private System.Windows.Forms.TextBox txtUpdatePathOfClient;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.RadioButton radioAllUpdate;
     }
 }
 
