@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\XmlHelper.cs" />
+    <Compile Include="Model\UpgradeConfig.cs" />
     <Compile Include="Updater.cs">
       <SubType>Form</SubType>
     </Compile>

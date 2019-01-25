@@ -1,9 +1,12 @@
-﻿using System;
+﻿using ClientUpgrade.WinformUploader.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,20 +15,35 @@ namespace ClientUpgrade.WinfromUpdater
 {
     public partial class Updater : Form
     {
-        private string _updatePath;
-        private string _updateWay;
+        private string updatePath;
+        private string updateWay;
+        private HttpClient httpClient;
+        private SysUpdateConfig serverSysUpdateConfig;
+        private SysUpdateConfig localSysUpdateConfig;
         public Updater(string updatePath, string updateWay)
         {
             InitializeComponent();
-            _updatePath = updatePath;
-            _updateWay = updateWay;
+            this.updatePath = updatePath;
+            this.updateWay = updateWay;
+            httpClient = new HttpClient();
         }
 
         private void LoadFileList()
         {
-            //try
-            //{
-            //    lbUpdateContent.Items.Clear();
+            lbUpdateContent.Items.Clear();
+            var stream = httpClient.GetStreamAsync(updatePath + "UpgradeConfig.xml").Result;
+            serverSysUpdateConfig = XmlHelper.Deserialize<SysUpdateConfig>(stream);
+            if (!File.Exists("UpgradeConfig.xml"))
+            {
+                updateWay = "2";
+            }
+            else
+            {
+                using(var fileStream=new FileStream("UpgradeConfig.xml", FileMode.Open))
+                {
+                    localSysUpdateConfig = XmlHelper.Deserialize<SysUpdateConfig>(fileStream);
+                }
+            }
             //获取服务端更新文件列表
             //    System.Net.HttpWebRequest Myrq = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(updatePath + "UpgradeConfig.xml");
             //    System.Net.HttpWebResponse myrp = (System.Net.HttpWebResponse)Myrq.GetResponse();
